@@ -37,10 +37,10 @@ const Auth = () => {
 
     try {
       if (isLogin) {
-        // const res = await axios.post(
-        //   "http://localhost:5000/api/auth/login",
         const res = await axios.post(
-  "https://elderassists-backend.onrender.com/api/auth/login",
+          "http://localhost:5000/api/auth/login",
+  //       const res = await axios.post(
+  // "https://elderassists-backend.onrender.com/api/auth/login",
           {
             email: formData.email,
             password: formData.password,
@@ -68,14 +68,14 @@ const Auth = () => {
               : [],
         };
 
-        // await axios.post(
-        //   "http://localhost:5000/api/auth/register",
-        //   dataToSend
-        // );
         await axios.post(
-  "https://elderassists-backend.onrender.com/api/auth/register",
-  dataToSend
-);
+          "http://localhost:5000/api/auth/register",
+          dataToSend
+        );
+  //       await axios.post(
+  // "https://elderassists-backend.onrender.com/api/auth/register",
+//   dataToSend
+// );
 
         toast.success("Registered successfully. Please login.");
         setIsLogin(true);
