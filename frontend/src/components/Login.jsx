@@ -14,10 +14,10 @@ const Login = () => {
     e.preventDefault();
 
     try {
+      // const res = await axios.post(
+      //   "http://localhost:5000/api/auth/login",
       const res = await axios.post(
-        "http://localhost:5000/api/auth/login",
-  //     const res = await axios.post(
-  // "https://elderassists-backend.onrender.com/api/auth/login",
+  "https://elderassists-backend.onrender.com/api/auth/login",
         formData,
         { validateStatus: (s) => s < 500 }
       );
