@@ -2,29 +2,68 @@ import User from "../models/User.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
+// export const register = async (req, res) => {
+//   const { name, email, password, role, experience, skills } = req.body;
+
+//   const exists = await User.findOne({ email });
+//   if (exists) return res.status(400).json({ message: "Email exists" });
+
+//   const hashed = await bcrypt.hash(password, 10);
+
+// const user = await User.create({
+//   name,
+//   email,
+//   password: hashed,
+//   role,
+//   experience: role === "helper" ? experience || "" : "",
+//   skills:
+//     role === "helper"
+//       ? Array.isArray(skills)
+//         ? skills
+//         : []
+//       : [],
+// });
+
+//   res.status(201).json({ message: "Registered" });
+// };
+
+
 export const register = async (req, res) => {
+ try {
+
   const { name, email, password, role, experience, skills } = req.body;
 
   const exists = await User.findOne({ email });
-  if (exists) return res.status(400).json({ message: "Email exists" });
 
-  const hashed = await bcrypt.hash(password, 10);
+  if (exists) {
+    return res.status(400).json({
+      message:"Email exists"
+    });
+  }
 
-const user = await User.create({
-  name,
-  email,
-  password: hashed,
-  role,
-  experience: role === "helper" ? experience || "" : "",
-  skills:
-    role === "helper"
-      ? Array.isArray(skills)
-        ? skills
-        : []
-      : [],
-});
+  const hashed = await bcrypt.hash(password,10);
 
-  res.status(201).json({ message: "Registered" });
+  await User.create({
+    name,
+    email,
+    password:hashed,
+    role,
+    experience: role==="helper" ? experience || "" : "",
+    skills: role==="helper" ? skills || [] : []
+  });
+
+  res.status(201).json({
+    message:"Registered"
+  });
+
+ } catch(error){
+
+  console.log("REGISTER ERROR:",error);
+
+  res.status(500).json({
+    message:error.message
+  });
+ }
 };
 
 export const login = async (req, res) => {
