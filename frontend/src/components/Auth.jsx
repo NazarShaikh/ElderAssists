@@ -81,8 +81,9 @@ const Auth = () => {
         setIsLogin(true);
       }
     } catch (err) {
-      toast.error(err.response?.data?.message || "Server error");
-    }
+  console.log("REGISTER ERROR RESPONSE:", err.response?.data);
+  toast.error(err.response?.data?.message || "Server error");
+}
   };
 
   return (
