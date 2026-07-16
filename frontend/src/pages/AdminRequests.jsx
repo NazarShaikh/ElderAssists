@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import api from "../services/api";
+import adminApi from "../services/adminApi";
 
 const AdminRequests = () => {
   const [requests, setRequests] = useState([]);
   const token = localStorage.getItem("token");
 
   useEffect(() => {
-    api.get("/admin/requests", {
+    adminApi.get("/requests", {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => setRequests(res.data));
@@ -15,8 +15,8 @@ const AdminRequests = () => {
   const deleteRequest = async (id) => {
     if (!window.confirm("Delete this request?")) return;
 
-    await api.delete(
-`/admin/request/${id}`,
+    await adminApi.delete(
+`/request/${id}`,
       { headers: { Authorization: `Bearer ${token}` } }
     );
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import api from "../services/api";
+import adminApi from "../services/adminApi";
 import {
   LineChart,
   Line,
@@ -23,7 +23,7 @@ const AdminDashboard = () => {
   // Fetch main dashboard stats
   const fetchDashboard = async () => {
     try {
-      const res = await api.get("/admin/dashboard", {
+      const res = await adminApi.get("/dashboard", {
         headers: { Authorization: `Bearer ${token}` },
       });
       console.log("Dashboard data:", res.data);
@@ -37,7 +37,7 @@ const AdminDashboard = () => {
   // Fetch weekly requests for the chart
   const fetchWeeklyRequests = async () => {
     try {
-      const res = await api.get("/admin/stats/weekly-requests", {
+      const res = await adminApi.get("/stats/weekly-requests", {
         headers: { Authorization: `Bearer ${token}` },
       });
       console.log("Weekly Requests:", res.data);

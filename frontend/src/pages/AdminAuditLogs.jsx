@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import api from "../services/api";
+import adminApi from "../services/adminApi";
 
 const AdminAuditLogs = () => {
   const [logs, setLogs] = useState([]);
@@ -12,7 +12,7 @@ const AdminAuditLogs = () => {
 
   const fetchLogs = async () => {
     try {
-      const res = await api.get("/admin/audit-logs", {
+      const res = await adminApi.get("/audit-logs", {
         headers: { Authorization: `Bearer ${token}` },
       });
       setLogs(res.data || []);

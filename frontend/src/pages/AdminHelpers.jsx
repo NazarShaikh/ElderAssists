@@ -1,6 +1,6 @@
 // frontend/src/pages/AdminHelpers.jsx
 import React, { useEffect, useState } from "react";
-import api from "../services/api";
+import adminApi from "../services/adminApi";
 
 const AdminHelpers = () => {
   const [helpers, setHelpers] = useState([]);
@@ -14,7 +14,7 @@ const AdminHelpers = () => {
 
   const fetchHelpers = async () => {
     try {
-  const res = await api.get("/admin/helpers", {
+  const res = await adminApi.get("/helpers", {
         headers: { Authorization: `Bearer ${token}` },
       });
       setHelpers(res.data);
@@ -28,8 +28,8 @@ const AdminHelpers = () => {
 
   const handleAction = async (id, action) => {
     try {
-   await api.put(
-`/admin/helpers/${action}/${id}`,
+   await adminApi.put(
+`/helpers/${action}/${id}`,
 {},
 {
 headers:{
