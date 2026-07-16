@@ -14,7 +14,7 @@ const AdminHelpers = () => {
 
   const fetchHelpers = async () => {
     try {
-  const res = await api.get("/api/admin/helpers", {
+  const res = await api.get("/admin/helpers", {
         headers: { Authorization: `Bearer ${token}` },
       });
       setHelpers(res.data);
