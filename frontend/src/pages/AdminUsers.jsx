@@ -14,7 +14,7 @@ const AdminUsers = () => {
 
   const fetchUsers = async () => {
     try {
-      const res = await api.get("http://localhost:5000/api/admin/users", {
+      const res = await api.get("/admin/users", {
         headers: { Authorization: `Bearer ${token}` },
       });
       setUsers(res.data);
@@ -29,7 +29,7 @@ const AdminUsers = () => {
   const toggleBlock = async (id, isBlocked) => {
     try {
       await api.put(
-        `http://localhost:5000/api/admin/users/block/${id}`,
+`/admin/users/block/${id}`,
         {},
         { headers: { Authorization: `Bearer ${token}` } }
       );

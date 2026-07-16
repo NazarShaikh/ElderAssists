@@ -28,11 +28,15 @@ const AdminHelpers = () => {
 
   const handleAction = async (id, action) => {
     try {
-      await api.put(
-        `http://localhost:5000/api/admin/helpers/${action}/${id}`,
-        {},
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+   await api.put(
+`/admin/helpers/${action}/${id}`,
+{},
+{
+headers:{
+Authorization:`Bearer ${token}`
+}
+}
+);
       fetchHelpers(); // refresh list
     } catch (err) {
       console.error("Action failed:", err);

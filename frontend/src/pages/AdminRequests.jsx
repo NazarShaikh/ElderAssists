@@ -6,8 +6,7 @@ const AdminRequests = () => {
   const token = localStorage.getItem("token");
 
   useEffect(() => {
-    api
-      .get("http://localhost:5000/api/admin/requests", {
+    api.get("/admin/requests", {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => setRequests(res.data));
@@ -17,7 +16,7 @@ const AdminRequests = () => {
     if (!window.confirm("Delete this request?")) return;
 
     await api.delete(
-      `http://localhost:5000/api/admin/request/${id}`,
+`/admin/request/${id}`,
       { headers: { Authorization: `Bearer ${token}` } }
     );
 

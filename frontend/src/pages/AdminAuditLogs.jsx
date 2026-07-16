@@ -12,7 +12,7 @@ const AdminAuditLogs = () => {
 
   const fetchLogs = async () => {
     try {
-      const res = await api.get("http://localhost:5000/api/admin/audit-logs", {
+      const res = await api.get("/admin/audit-logs", {
         headers: { Authorization: `Bearer ${token}` },
       });
       setLogs(res.data || []);
