@@ -19,6 +19,35 @@ import Request from "../models/Request.js";
 //   }
 // };
 
+// export const getAllHelpers = async (req, res) => {
+//   try {
+//     const helpers = await User.find({
+//       role: "helper",
+//       status: "approved",
+//       isBlocked: false,
+//     }).select("-password");
+
+//     const helpersWithStats = await Promise.all(
+//       helpers.map(async (helper) => {
+//         const completedServices = await Request.countDocuments({
+//           helperId: helper._id,
+//           status: "completed",
+//         });
+
+//         return {
+//           ...helper._doc,
+//           completedServices, // ✅ ADD THIS
+//         };
+//       })
+//     );
+
+//     res.status(200).json(helpersWithStats);
+//   } catch (error) {
+//     console.error("Get helpers error:", error);
+//     res.status(500).json({ message: "Failed to fetch helpers" });
+//   }
+// };
+
 export const getAllHelpers = async (req, res) => {
   try {
     const helpers = await User.find({
@@ -26,6 +55,8 @@ export const getAllHelpers = async (req, res) => {
       status: "approved",
       isBlocked: false,
     }).select("-password");
+
+    console.log("Approved helpers:", helpers);
 
     const helpersWithStats = await Promise.all(
       helpers.map(async (helper) => {
@@ -36,15 +67,16 @@ export const getAllHelpers = async (req, res) => {
 
         return {
           ...helper._doc,
-          completedServices, // ✅ ADD THIS
+          completedServices,
         };
       })
     );
 
+    console.log("Response:", helpersWithStats);
+
     res.status(200).json(helpersWithStats);
-  } catch (error) {
-    console.error("Get helpers error:", error);
-    res.status(500).json({ message: "Failed to fetch helpers" });
+  } catch (err) {
+    console.error(err);
   }
 };
 
