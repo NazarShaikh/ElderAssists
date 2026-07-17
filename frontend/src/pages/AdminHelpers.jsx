@@ -13,6 +13,11 @@ const AdminHelpers = () => {
   }, []);
 
   const fetchHelpers = async () => {
+    console.log("AdminHelpers component loaded");
+console.log("Base URL:", adminApi.defaults.baseURL);
+
+// try {
+//   const res = await adminApi.get("/helpers");
     try {
   const res = await adminApi.get("/helpers", {
         headers: { Authorization: `Bearer ${token}` },
