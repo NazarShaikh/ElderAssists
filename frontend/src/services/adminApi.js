@@ -4,9 +4,15 @@ import axios from "axios";
 //   baseURL: "http://localhost:5000/api/admin",
 // });
 
+// const adminApi = axios.create({
+//   baseURL: "https://elderassists-backend.onrender.com/api/admin",
+// });
+
 const adminApi = axios.create({
   baseURL: "https://elderassists-backend.onrender.com/api/admin",
 });
+
+console.log("ADMIN API URL:", adminApi.defaults.baseURL);
 
 adminApi.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
