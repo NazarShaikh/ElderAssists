@@ -41,7 +41,7 @@ router.get("/helper", auth, async (req, res) => {
 router.get("/helper/user-summary",auth,getHelperUsersSummary)
 
 // router.put("/:id/complete", completeRequest);
-router.put("/:id/rate", rateRequest);
+// router.put("/:id/rate", rateRequest);
 
 router.put("/accept/:id", auth, acceptRequest);
 router.put("/reject/:id", auth, rejectRequest);

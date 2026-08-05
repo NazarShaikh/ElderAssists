@@ -72,13 +72,25 @@ export const getRequestForHelper = async (req, res) => {
  */
 export const getUserRequests = async (req, res) => {
   try {
-    const requests = await Request.find({ userId: req.user._id })
+    console.log("Logged in user:", req.user);
+
+    const requests = await Request.find({
+      userId: req.user._id,
+    })
       .populate("helperId", "name email")
       .sort({ createdAt: -1 });
+
+    console.log("Requests:", requests);
+
     res.json(requests);
   } catch (error) {
-    console.error("Get user requests error:", error);
-    res.status(500).json({ message: "Failed to fetch requests" });
+    console.error("GET USER REQUESTS ERROR");
+    console.error(error);
+    console.error(error.stack);
+
+    res.status(500).json({
+      message: error.message,
+    });
   }
 };
 
@@ -89,7 +101,7 @@ export const getUserRequests = async (req, res) => {
 /* ===================== CREATE REQUEST ===================== */
 export const createRequest = async (req, res) => {
   try {
-    const { helperId, address, duration, description } = req.body;
+    const { helperId, address, duration, description, amount } = req.body;
     const user = req.user;
 
     const helper = await User.findById(helperId);
@@ -116,6 +128,7 @@ export const createRequest = async (req, res) => {
       address,
       duration,
       description,
+        amount,
       paymentStatus: "pending",
       helperPaymentStatus: "pending",
       status: "pending",
@@ -131,7 +144,11 @@ export const createRequest = async (req, res) => {
       details: "User created a service request",
     });
 
-    res.status(201).json({ message: "Request created", newRequest: request });
+  res.status(201).json({
+  message: "Request created",
+  requestId: request._id,
+  request
+});
   } catch (error) {
     res.status(500).json({ message: "Server error" });
   }

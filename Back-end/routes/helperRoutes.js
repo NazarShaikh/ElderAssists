@@ -5,11 +5,17 @@ import {
   getAllHelpers,
   getMyRequests,
   getUsersHandledByHelper,
-  getHelperUserInsights
+   getHelperInsights
 } from "../controllers/helperController.js";
 
 const router = express.Router();
 
+router.get(
+ "/insights",
+ auth,
+ roleMiddleware("helper"),
+ getHelperInsights
+);
 // Helper must be logged in
 router.get("/my-requests", auth, roleMiddleware("helper"), getMyRequests);
 
@@ -19,12 +25,6 @@ router.get(
   auth,
   roleMiddleware("helper"),
   getUsersHandledByHelper
-);
-router.get(
-  "/insights",
-  auth,
-  roleMiddleware("helper"),
-  getHelperUserInsights
 );
 
 // Public

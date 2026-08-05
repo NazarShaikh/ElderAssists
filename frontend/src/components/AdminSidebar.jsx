@@ -1,21 +1,4 @@
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 import { Link, useNavigate, useLocation } from "react-router-dom";
 
 const AdminSidebar = ({ open, setOpen }) => {

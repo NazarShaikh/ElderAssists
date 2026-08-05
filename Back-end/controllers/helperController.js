@@ -88,122 +88,124 @@ export const getUsersHandledByHelper = async (req, res) => {
 
 
 
-export const getHelperUserInsights = async (req, res) => {
+export const getHelperInsights = async (req, res) => {
   try {
 
     const helperId = req.user._id;
 
-    const insights = await Request.aggregate([
 
-      // get only requests handled by logged-in helper
+    const totalRequests = await Request.countDocuments({
+      helperId
+    });
+
+
+    const completed = await Request.countDocuments({
+      helperId,
+      status:"completed"
+    });
+
+
+    const ongoing = await Request.countDocuments({
+      helperId,
+      status:"accepted"
+    });
+
+
+    const cancelled = await Request.countDocuments({
+      helperId,
+      status:"cancelled"
+    });
+
+
+    const ratingData = await Request.aggregate([
       {
         $match:{
-          helperId: helperId
+          helperId,
+          rating:{
+            $exists:true
+          }
         }
       },
-
-      // group requests by user
       {
         $group:{
-          _id:"$userId",
-
-          totalRequests:{
-            $sum:1
-          },
-
-          completedRequests:{
-            $sum:{
-              $cond:[
-                {$eq:["$status","completed"]},
-                1,
-                0
-              ]
-            }
-          },
-
-          ongoingRequests:{
-            $sum:{
-              $cond:[
-                {$eq:["$status","accepted"]},
-                1,
-                0
-              ]
-            }
-          },
-
-          cancelledRequests:{
-            $sum:{
-              $cond:[
-                {$eq:["$status","cancelled"]},
-                1,
-                0
-              ]
-            }
-          },
-
+          _id:null,
           avgRating:{
             $avg:"$rating"
-          },
-
-          totalSpent:{
-            $sum:"$amount"
           }
-
-        }
-      },
-
-
-      // get user details
-      {
-        $lookup:{
-          from:"users",
-          localField:"_id",
-          foreignField:"_id",
-          as:"user"
-        }
-      },
-
-
-      {
-        $unwind:"$user"
-      },
-
-
-      {
-        $project:{
-          _id:0,
-
-          name:"$user.name",
-          email:"$user.email",
-
-          totalRequests:1,
-          completedRequests:1,
-          ongoingRequests:1,
-          cancelledRequests:1,
-
-          avgRating:{
-            $round:[
-              {$ifNull:["$avgRating",0]},
-              1
-            ]
-          },
-
-          totalSpent:1
         }
       }
-
     ]);
 
 
-    res.json(insights);
+    const avgRating =
+      ratingData.length > 0
+      ? Number(ratingData[0].avgRating.toFixed(1))
+      : 0;
+
+
+
+    const totalSpent = await Request.aggregate([
+      {
+        $match:{
+          helperId,
+          status:"completed"
+        }
+      },
+      {
+        $group:{
+          _id:null,
+          total:{
+            $sum:"$amount"
+          }
+        }
+      }
+    ]);
+
+
+
+    const recentRequests = await Request.find({
+      helperId
+    })
+    .populate("userId","name email")
+    .sort({
+      createdAt:-1
+    })
+    .limit(5);
+
+
+
+    res.json({
+
+      totalRequests,
+
+      completed,
+
+      ongoing,
+
+      cancelled,
+
+      avgRating,
+
+      totalSpent:
+      totalSpent.length
+      ? totalSpent[0].total
+      : 0,
+
+
+      recentRequests
+
+    });
 
 
   } catch(error){
 
-    console.log(error);
+    console.error(
+      "Helper insights error:",
+      error
+    );
 
     res.status(500).json({
-      message:"Failed to load insights"
+      message:"Failed to fetch insights"
     });
 
   }
