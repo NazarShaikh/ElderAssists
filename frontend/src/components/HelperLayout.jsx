@@ -101,7 +101,7 @@
 
 import React, { useState } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
-import { Home, Users, LogOut, Menu, X } from "lucide-react";
+import { Home, Users, LogOut, X } from "lucide-react";
 import Navbar from "./Navbar";
 
 const HelperLayout = () => {

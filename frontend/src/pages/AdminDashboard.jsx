@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import adminApi from "../services/adminApi";
 import {
   LineChart,
@@ -18,10 +18,10 @@ const AdminDashboard = () => {
   useEffect(() => {
     fetchDashboard();
     fetchWeeklyRequests();
-  }, []);
+  }, [fetchDashboard, fetchWeeklyRequests]);
 
   // Fetch main dashboard stats
-  const fetchDashboard = async () => {
+  const fetchDashboard =useCallback(async () => {
     try {
       const res = await adminApi.get("/dashboard", {
         headers: { Authorization: `Bearer ${token}` },
@@ -32,10 +32,10 @@ const AdminDashboard = () => {
       console.error("Dashboard fetch error:", err.response || err.message);
       alert("Failed to fetch dashboard data");
     }
-  };
+  }, [token]);
 
   // Fetch weekly requests for the chart
-  const fetchWeeklyRequests = async () => {
+  const fetchWeeklyRequests = useCallback(async () => {
     try {
       const res = await adminApi.get("/stats/weekly-requests", {
         headers: { Authorization: `Bearer ${token}` },
@@ -45,7 +45,7 @@ const AdminDashboard = () => {
     } catch (err) {
       console.error("Weekly requests fetch error:", err.response || err.message);
     }
-  };
+  }, [token]);
 
   if (!stats)
     return <p className="text-center mt-10 text-gray-700">Loading dashboard...</p>;

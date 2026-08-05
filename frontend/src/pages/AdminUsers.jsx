@@ -7,9 +7,9 @@ const AdminUsers = () => {
 
   const token = localStorage.getItem("token");
 
-  useEffect(() => {
-    fetchUsers();
-  }, []);
+ useEffect(() => {
+  fetchUsers();
+}, [fetchUsers]);
 
   const fetchUsers =useCallback(async () => {
     try {

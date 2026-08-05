@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useCallback } from "react";
 import adminApi from "../services/adminApi";
 
 const AdminAuditLogs = () => {
@@ -8,9 +8,9 @@ const AdminAuditLogs = () => {
 
   useEffect(() => {
     fetchLogs();
-  }, []);
+  }, [fetchLogs]);
 
-  const fetchLogs = async () => {
+  const fetchLogs = useCallback(async () => {
     try {
       const res = await adminApi.get("/audit-logs", {
         headers: { Authorization: `Bearer ${token}` },
@@ -22,7 +22,7 @@ const AdminAuditLogs = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [token]);
 
   if (loading) return <p className="p-6 text-gray-800">Loading audit logs...</p>;
 
