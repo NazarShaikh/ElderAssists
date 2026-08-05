@@ -7,7 +7,7 @@
   import requestRoutes from "./routes/requestRoutes.js";
   import helperRoutes from "./routes/helperRoutes.js";
   import adminRoutes from "./routes/adminRoutes.js";
-import userRoutes from "./routes/UserRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
 
 
 dotenv.config();
@@ -17,7 +17,15 @@ connectDB();
 
 const app = express();
 
-app.use(cors());
+app.use(
+  cors({
+    origin:[
+      "http://localhost:3000",
+      "https://your-frontend-vercel-url.vercel.app"
+    ],
+    credentials:true
+  })
+);
 app.use(express.json());
 
 // ROUTES

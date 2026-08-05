@@ -37,15 +37,23 @@ const Auth = () => {
 
     try {
       if (isLogin) {
-        const res = await axios.post(
-          "http://localhost:5000/api/auth/login",
   //       const res = await axios.post(
-  // "https://elderassists-backend.onrender.com/api/auth/login",
-          {
-            email: formData.email,
-            password: formData.password,
-          }
-        );
+  //         "http://localhost:5000/api/auth/login",
+  // //       const res = await axios.post(
+  // // "https://elderassists-backend.onrender.com/api/auth/login",
+  //         {
+  //           email: formData.email,
+  //           password: formData.password,
+  //         }
+  //       );
+
+  await axios.post(
+  `${process.env.REACT_APP_API_URL}/auth/login`,
+  {
+    email: formData.email,
+    password: formData.password,
+  }
+);
 
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("user", JSON.stringify(res.data.user));
@@ -68,10 +76,16 @@ const Auth = () => {
               : [],
         };
 
+        // await axios.post(
+        //   "http://localhost:5000/api/auth/register",
+        //   dataToSend
+        // );
+
         await axios.post(
-          "http://localhost:5000/api/auth/register",
-          dataToSend
-        );
+  `${process.env.REACT_APP_API_URL}/auth/register`,
+  dataToSend
+);
+
 //         await axios.post(
 //   "https://elderassists-backend.onrender.com/api/auth/register",
 //   dataToSend
