@@ -6,11 +6,13 @@ const AdminRequests = () => {
   const token = localStorage.getItem("token");
 
   useEffect(() => {
-    adminApi.get("/requests", {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      .then((res) => setRequests(res.data));
-  }, []);
+  adminApi.get("/requests", {
+    headers: {
+      Authorization: `Bearer ${token}`
+    },
+  })
+  .then((res) => setRequests(res.data));
+}, [token]);
 
   const deleteRequest = async (id) => {
     if (!window.confirm("Delete this request?")) return;

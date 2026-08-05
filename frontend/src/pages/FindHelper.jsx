@@ -6,7 +6,7 @@ const FindHelper = () => {
   const [expandedId, setExpandedId] = useState(null);
   const [selectedHelperId, setSelectedHelperId] = useState(null);
   const [loading, setLoading] = useState(true);
-  const token = localStorage.getItem("token");
+  // const token = localStorage.getItem("token");
 
   useEffect(() => {
     fetchHelpers();

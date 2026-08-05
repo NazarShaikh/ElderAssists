@@ -1,6 +1,5 @@
 // frontend/src/pages/AdminUsers.jsx
-import React, { useEffect, useState } from "react";
-import adminApi from "../services/adminApi";
+import React, { useEffect, useState, useCallback } from "react";import adminApi from "../services/adminApi";
 
 const AdminUsers = () => {
   const [users, setUsers] = useState([]);
@@ -12,7 +11,7 @@ const AdminUsers = () => {
     fetchUsers();
   }, []);
 
-  const fetchUsers = async () => {
+  const fetchUsers =useCallback(async () => {
     try {
       const res = await adminApi.get("/users", {
         headers: { Authorization: `Bearer ${token}` },
@@ -24,7 +23,7 @@ const AdminUsers = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [token]);
 
   const toggleBlock = async (id, isBlocked) => {
     try {

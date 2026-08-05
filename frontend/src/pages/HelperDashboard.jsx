@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useCallback } from "react";
 import api from "../services/api";
 
 const HelperDashboard = () => {
@@ -6,18 +6,18 @@ const HelperDashboard = () => {
   const [expandedId, setExpandedId] = useState(null);
   
 
-  const fetchRequests = async () => {
+  const fetchRequests = useCallback(async () => {
     try {
       const res = await api.get("/requests/helper");
       setRequests(res.data || []);
     } catch (err) {
       console.error("Fetch error:", err);
     }
-  };
+  }, []);
 
   useEffect(() => {
-    fetchRequests();
-  }, []);
+  fetchRequests();
+}, [fetchRequests]);
 
   const updateStatus = async (id, status) => {
     if (!window.confirm(`Are you sure to ${status} this request?`)) return;
