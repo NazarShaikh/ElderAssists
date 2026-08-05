@@ -15,10 +15,7 @@ const AdminDashboard = () => {
   const [weeklyRequests, setWeeklyRequests] = useState([]);
   const token = localStorage.getItem("token");
 
-  useEffect(() => {
-    fetchDashboard();
-    fetchWeeklyRequests();
-  }, [fetchDashboard, fetchWeeklyRequests]);
+
 
   // Fetch main dashboard stats
   const fetchDashboard =useCallback(async () => {
@@ -46,7 +43,10 @@ const AdminDashboard = () => {
       console.error("Weekly requests fetch error:", err.response || err.message);
     }
   }, [token]);
-
+  useEffect(() => {
+    fetchDashboard();
+    fetchWeeklyRequests();
+  }, [fetchDashboard, fetchWeeklyRequests]);
   if (!stats)
     return <p className="text-center mt-10 text-gray-700">Loading dashboard...</p>;
 

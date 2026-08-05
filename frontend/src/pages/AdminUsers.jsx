@@ -7,9 +7,7 @@ const AdminUsers = () => {
 
   const token = localStorage.getItem("token");
 
- useEffect(() => {
-  fetchUsers();
-}, [fetchUsers]);
+
 
   const fetchUsers =useCallback(async () => {
     try {
@@ -25,6 +23,12 @@ const AdminUsers = () => {
     }
   }, [token]);
 
+  useEffect(() => {
+  fetchUsers();
+}, [fetchUsers]);
+
+
+
   const toggleBlock = async (id, isBlocked) => {
     try {
       await adminApi.put(
@@ -38,7 +42,7 @@ const AdminUsers = () => {
       alert("Action failed");
     }
   };
-
+ 
   return (
     <div className="p-6">
       <h1 className="text-3xl font-bold mb-6">Manage Users</h1>

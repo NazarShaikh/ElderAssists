@@ -6,10 +6,7 @@ const AdminAuditLogs = () => {
   const [loading, setLoading] = useState(true);
   const token = localStorage.getItem("token");
 
-  useEffect(() => {
-    fetchLogs();
-  }, [fetchLogs]);
-
+ 
   const fetchLogs = useCallback(async () => {
     try {
       const res = await adminApi.get("/audit-logs", {
@@ -23,6 +20,9 @@ const AdminAuditLogs = () => {
       setLoading(false);
     }
   }, [token]);
+ useEffect(() => {
+    fetchLogs();
+  }, [fetchLogs]);
 
   if (loading) return <p className="p-6 text-gray-800">Loading audit logs...</p>;
 
