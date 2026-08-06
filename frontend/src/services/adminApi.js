@@ -1,22 +1,18 @@
 import axios from "axios";
 
 const adminApi = axios.create({
-  baseURL: "http://localhost:5000/api/admin",
+  baseURL: process.env.REACT_APP_ADMINAPI_URL,
 });
-
-
-
-// const adminApi = axios.create({
-//   baseURL: "https://elderassists-backend.onrender.com/api/admin",
-// });
 
 console.log("ADMIN API URL:", adminApi.defaults.baseURL);
 
 adminApi.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
+
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
+
   return config;
 });
 
