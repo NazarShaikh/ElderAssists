@@ -19,11 +19,12 @@ const app = express();
 
 app.use(
   cors({
-    origin:[
+    origin: [
       "http://localhost:3000",
-      "https://elderassists-phi.vercel.app/"
+      "https://elderassists-phi.vercel.app",
+      "https://elderassists-git-main-nazarshaikhs-projects.vercel.app"
     ],
-    credentials:true
+    credentials: true
   })
 );
 app.use(express.json());
